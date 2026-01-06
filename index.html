@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Royal Proposal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Cormorant+Garamond:wght@300;400;600;700&family=Cinzel+Decorative:wght@700;900&family=Italiana&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Cormorant Garamond', serif;
+            overflow-x: hidden;
+            background: #0a0a1a;
+            color: #fff;
+        }
+
+        /* Royal curtain effect */
+        .curtain {
+            position: fixed;
+            top: 0;
+            width: 50%;
+            height: 100%;
+            background: linear-gradient(to right, #1a0a0a, #2d1810);
+            z-index: 10000;
+            transition: transform 2s ease-in-out;
+        }
+
+        .curtain-left {
+            left: 0;
+            transform-origin: left;
+        }
+
+        .curtain-right {
+            right: 0;
+            transform-origin: right;
+        }
+
+        .curtain-left.open { transform: translateX(-100%); }
+        .curtain-right.open { transform: translateX(100%); }
+
+        .section {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            padding: 80px 20px;
+        }
+
+        /* Royal starry background */
+        #stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            background: radial-gradient(ellipse at top, #1a1a3e, #0a0a1a);
+        }
+
+        .star {
+            position: absolute;
+            background: #ffd700;
+            border-radius: 50%;
+            animation: royalTwinkle 4s infinite;
+            box-shadow: 0 0 20px rgba(255,215,0,0.8);
+        }
+
+        @keyframes royalTwinkle {
+            0%, 100% { opacity: 0.3; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.3); }
+        }
+
+        /* Crown ornaments */
+        .crown-ornament {
+            position: fixed;
+            font-size: 3em;
+            opacity: 0.15;
+            animation: float 6s ease-in-out infinite;
+            z-index: 0;
+            filter: drop-shadow(0 0 10px rgba(255,215,0,0.5));
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-30px) rotate(10deg); }
+        }
+
+        /* Content sections */
+        .content {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            max-width: 1200px;
+        }
+
+        /* Royal decree styling */
+        .intro-text {
+            font-family: 'Cinzel Decorative', serif;
+            font-size: 4.5em;
+            font-weight: 900;
+            letter-spacing: 8px;
+            text-transform: uppercase;
+            color: #ffd700;
+            text-shadow: 0 0 40px rgba(255,215,0,0.6),
+                         0 5px 10px rgba(0,0,0,0.8),
+                         0 0 80px rgba(255,215,0,0.4);
+            animation: royalEntrance 3s ease-in;
+            position: relative;
+            padding: 40px 0;
+        }
+
+        .intro-text::before,
+        .intro-text::after {
+            content: '◆';
+            position: absolute;
+            font-size: 0.4em;
+            color: #ffd700;
+            top: 0;
+            animation: ornamentSpin 4s linear infinite;
+        }
+
+        .intro-text::before { left: 10%; }
+        .intro-text::after { right: 10%; }
+
+        @keyframes ornamentSpin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .intro-text::after {
+            animation-direction: reverse;
+        }
+
+        /* Royal divider */
+        .royal-divider {
+            width: 300px;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, #ffd700, transparent);
+            margin: 30px auto;
+            box-shadow: 0 0 20px rgba(255,215,0,0.6);
+            position: relative;
+        }
+
+        .royal-divider::before,
+        .royal-divider::after {
+            content: '❖';
+            position: absolute;
+            color: #ffd700;
+            font-size: 1.5em;
+            top: -15px;
+        }
+
+        .royal-divider::before { left: -30px; }
+        .royal-divider::after { right: -30px; }
+
+        @keyframes royalEntrance {
+            from { 
+                opacity: 0; 
+                transform: translateY(100px) scale(0.8);
+                filter: blur(10px);
+            }
+            to { 
+                opacity: 1; 
+                transform: translateY(0) scale(1);
+                filter: blur(0);
+            }
+        }
+
+        /* Floating thoughts - royal scroll style */
+        .floating-thoughts {
+            position: relative;
+            min-height: 200vh;
+            background: linear-gradient(180deg, 
+                rgba(26,10,10,0) 0%, 
+                rgba(45,24,16,0.3) 50%, 
+                rgba(26,10,10,0) 100%);
+        }
+
+        .thought {
+            position: absolute;
+            font-size: 2.5em;
+            font-family: 'Italiana', serif;
+            opacity: 0;
+            transform: translateY(80px) scale(0.8);
+            transition: all 1.2s ease;
+            padding: 20px 40px;
+            border: 2px solid rgba(255,215,0,0.3);
+            background: rgba(10,10,26,0.8);
+            border-radius: 10px;
+            box-shadow: 0 0 30px rgba(255,215,0,0.3),
+                        inset 0 0 20px rgba(255,215,0,0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        .thought.visible {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+
+        .thought:nth-child(1) { 
+            top: 10%; 
+            left: 10%; 
+            color: #ffd700;
+        }
+        .thought:nth-child(2) { 
+            top: 25%; 
+            right: 12%; 
+            color: #ffed4e;
+        }
+        .thought:nth-child(3) { 
+            top: 40%; 
+            left: 8%; 
+            color: #ffd700;
+        }
+        .thought:nth-child(4) { 
+            top: 55%; 
+            right: 10%; 
+            color: #ffed4e;
+        }
+        .thought:nth-child(5) { 
+            top: 70%; 
+            left: 12%; 
+            color: #ffd700;
+        }
+        .thought:nth-child(6) { 
+            top: 85%; 
+            right: 8%; 
+            color: #ffed4e;
+        }
+
+        /* Royal decree section */
+        .dreamy {
+            background: radial-gradient(ellipse at center, rgba(45,24,16,0.5), transparent);
+            position: relative;
+        }
+
+        .dreamy::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 800px;
+            height: 800px;
+            background: radial-gradient(circle, rgba(255,215,0,0.2), transparent);
+            transform: translate(-50%, -50%);
+            animation: royalGlow 4s ease-in-out infinite;
+        }
+
+        @keyframes royalGlow {
+            0%, 100% { opacity: 0.5; transform: translate(-50%, -50%) scale(0.9); }
+            50% { opacity: 1; transform: translate(-50%, -50%) scale(1.1); }
+        }
+
+        .dreamy-text {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.8em;
+            line-height: 1.6;
+            font-weight: 700;
+            color: #ffd700;
+            letter-spacing: 3px;
+            position: relative;
+            z-index: 1;
+            text-shadow: 0 0 40px rgba(255,215,0,0.6),
+                         0 5px 15px rgba(0,0,0,0.8);
+            font-style: italic;
+        }
+
+        /* Royal proposal section */
+        .proposal {
+            background: radial-gradient(ellipse at center, rgba(45,24,16,0.6), rgba(26,10,10,0.4), transparent);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Throne room effect */
+        .proposal::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                linear-gradient(90deg, rgba(255,215,0,0.1) 1px, transparent 1px),
+                linear-gradient(0deg, rgba(255,215,0,0.1) 1px, transparent 1px);
+            background-size: 50px 50px;
+            opacity: 0.2;
+            animation: throneMove 20s linear infinite;
+        }
+
+        @keyframes throneMove {
+            from { transform: translateY(0); }
+            to { transform: translateY(50px); }
+        }
+
+        .royal-crest {
+            font-size: 8em;
+            margin-bottom: 30px;
+            filter: drop-shadow(0 0 30px rgba(255,215,0,0.8));
+            animation: crownFloat 3s ease-in-out infinite;
+        }
+
+        @keyframes crownFloat {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(5deg); }
+        }
+
+        .proposal-text {
+            font-family: 'Cinzel Decorative', serif;
+            font-size: 4.5em;
+            font-weight: 900;
+            margin-bottom: 50px;
+            color: #ffd700;
+            text-shadow: 0 0 60px rgba(255,215,0,0.8),
+                         0 5px 20px rgba(0,0,0,0.9),
+                         0 0 100px rgba(255,215,0,0.4);
+            letter-spacing: 4px;
+            position: relative;
+            z-index: 1;
+            line-height: 1.4;
+            text-transform: uppercase;
+        }
+
+        .royal-scroll {
+            background: linear-gradient(135deg, rgba(139,69,19,0.3), rgba(160,82,45,0.3));
+            border: 3px solid #ffd700;
+            padding: 60px;
+            border-radius: 20px;
+            box-shadow: 0 0 50px rgba(255,215,0,0.4),
+                        inset 0 0 30px rgba(255,215,0,0.1);
+            position: relative;
+            backdrop-filter: blur(10px);
+        }
+
+        .royal-scroll::before,
+        .royal-scroll::after {
+            content: '';
+            position: absolute;
+            width: 60px;
+            height: 60px;
+            border: 3px solid #ffd700;
+        }
+
+        .royal-scroll::before {
+            top: -3px;
+            left: -3px;
+            border-right: none;
+            border-bottom: none;
+        }
+
+        .royal-scroll::after {
+            bottom: -3px;
+            right: -3px;
+            border-left: none;
+            border-top: none;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 50px;
+            justify-content: center;
+            margin-top: 60px;
+            position: relative;
+            z-index: 1;
+        }
+
+        button {
+            font-family: 'Cinzel Decorative', serif;
+            font-size: 2em;
+            padding: 25px 60px;
+            border: 4px solid #ffd700;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 700;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+            background: rgba(10,10,26,0.9);
+            color: #ffd700;
+            box-shadow: 0 0 40px rgba(255,215,0,0.4),
+                        inset 0 0 20px rgba(255,215,0,0.2);
+        }
+
+        button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,215,0,0.4), transparent);
+            transition: left 0.5s;
+        }
+
+        button:hover::before {
+            left: 100%;
+        }
+
+        #yesBtn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 80px rgba(255,215,0,0.8),
+                        inset 0 0 40px rgba(255,215,0,0.3);
+            text-shadow: 0 0 20px rgba(255,215,0,1);
+        }
+
+        #noBtn:hover {
+            box-shadow: 0 0 40px rgba(255,255,255,0.4);
+        }
+
+        .ps-text {
+            margin-top: 60px;
+            font-family: 'Playfair Display', serif;
+            font-size: 2em;
+            font-style: italic;
+            color: #ffd700;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-shadow: 0 0 30px rgba(255,215,0,0.6);
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Royal confetti - gold coins */
+        .confetti {
+            position: fixed;
+            width: 20px;
+            height: 20px;
+            background: radial-gradient(circle, #ffd700, #ffed4e);
+            border-radius: 50%;
+            box-shadow: 0 0 20px rgba(255,215,0,0.8),
+                        inset 0 0 10px rgba(255,255,255,0.5);
+            animation: royalConfettiFall 4s linear forwards;
+            z-index: 9999;
+        }
+
+        .confetti::before {
+            content: '◆';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: rgba(139,69,19,0.5);
+            font-size: 10px;
+        }
+
+        @keyframes royalConfettiFall {
+            to {
+                transform: translateY(100vh) rotate(1080deg);
+                opacity: 0;
+            }
+        }
+
+        /* Sparkles */
+        .sparkle {
+            position: fixed;
+            width: 4px;
+            height: 4px;
+            background: #ffd700;
+            border-radius: 50%;
+            pointer-events: none;
+            animation: sparkleRise 6s linear infinite;
+            box-shadow: 0 0 10px rgba(255,215,0,1);
+        }
+
+        @keyframes sparkleRise {
+            0% {
+                transform: translateY(100vh) scale(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100px) scale(1.5);
+                opacity: 0;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .intro-text { font-size: 2.2em; letter-spacing: 3px; }
+            .thought { font-size: 1.5em; padding: 15px 25px; }
+            .dreamy-text { font-size: 2em; }
+            .proposal-text { font-size: 2.2em; }
+            .royal-crest { font-size: 4em; }
+            .royal-scroll { padding: 40px 20px; }
+            button { font-size: 1.3em; padding: 20px 40px; }
+            .buttons { flex-direction: column; align-items: center; gap: 30px; }
+            .ps-text { font-size: 1.3em; }
+        }
+    </style>
+</head>
+<body>
+    <div class="curtain curtain-left"></div>
+    <div class="curtain curtain-right"></div>
+
+    <div id="stars"></div>
+
+    <div class="section">
+        <div class="content">
+            <div class="intro-text">
+                it started with one random thought...
+            </div>
+            <div class="royal-divider"></div>
+        </div>
+    </div>
+
+    <div class="floating-thoughts">
+        <div class="thought" data-scroll="100">her smile 💀</div>
+        <div class="thought" data-scroll="300">bro i'm doomed 😭</div>
+        <div class="thought" data-scroll="500">why is she like this 😩</div>
+        <div class="thought" data-scroll="700">can't stop thinking about her 🫠</div>
+        <div class="thought" data-scroll="900">ok wait… i think i love her 🫠</div>
+        <div class="thought" data-scroll="1100">this feels different ✨</div>
+    </div>
+
+    <div class="section dreamy">
+        <div class="content">
+            <div class="dreamy-text">
+                the chaos makes sense now.<br>
+                because it's all about you.
+            </div>
+            <div class="royal-divider"></div>
+        </div>
+    </div>
+
+    <div class="section proposal">
+        <div class="content">
+            <div class="royal-scroll">
+                <div class="royal-crest">👑</div>
+                <div class="proposal-text">
+                    so before i lose my mind completely...<br>
+                    will you be my girlfriend? 💕
+                </div>
+                <div class="buttons">
+                    <button id="yesBtn">Yes! 💖</button>
+                    <button id="noBtn">No</button>
+                </div>
+                <div class="ps-text">
+                    p.s. you're the prettiest form of chaos i've ever seen 🌙
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Royal curtain opening
+        setTimeout(() => {
+            document.querySelector('.curtain-left').classList.add('open');
+            document.querySelector('.curtain-right').classList.add('open');
+        }, 500);
+
+        // Create royal stars
+        const starsContainer = document.getElementById('stars');
+        for (let i = 0; i < 200; i++) {
+            const star = document.createElement('div');
+            star.className = 'star';
+            const size = Math.random() * 3 + 1;
+            star.style.width = size + 'px';
+            star.style.height = size + 'px';
+            star.style.left = Math.random() * 100 + '%';
+            star.style.top = Math.random() * 100 + '%';
+            star.style.animationDelay = Math.random() * 4 + 's';
+            starsContainer.appendChild(star);
+        }
+
+        // Create crown ornaments
+        const crownPositions = [
+            {left: '5%', top: '10%'},
+            {right: '5%', top: '10%'},
+            {left: '5%', bottom: '10%'},
+            {right: '5%', bottom: '10%'}
+        ];
+
+        crownPositions.forEach((pos, i) => {
+            const crown = document.createElement('div');
+            crown.className = 'crown-ornament';
+            crown.textContent = '👑';
+            Object.assign(crown.style, pos);
+            crown.style.animationDelay = i * 1.5 + 's';
+            document.body.appendChild(crown);
+        });
+
+        // Create golden sparkles
+        for (let i = 0; i < 40; i++) {
+            const sparkle = document.createElement('div');
+            sparkle.className = 'sparkle';
+            sparkle.style.left = Math.random() * 100 + '%';
+            sparkle.style.animationDelay = Math.random() * 6 + 's';
+            document.body.appendChild(sparkle);
+        }
+
+        // Scroll animations
+        window.addEventListener('scroll', () => {
+            const thoughts = document.querySelectorAll('.thought');
+            const scrollPos = window.scrollY;
+
+            thoughts.forEach(thought => {
+                const threshold = parseInt(thought.dataset.scroll);
+                if (scrollPos > threshold) {
+                    thought.classList.add('visible');
+                }
+            });
+        });
+
+        // Button interactions
+        const yesBtn = document.getElementById('yesBtn');
+        const noBtn = document.getElementById('noBtn');
+
+        yesBtn.addEventListener('click', () => {
+            // Royal gold confetti
+            for (let i = 0; i < 150; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                confetti.style.left = Math.random() * 100 + '%';
+                confetti.style.top = '50%';
+                confetti.style.animationDelay = Math.random() * 0.4 + 's';
+                document.body.appendChild(confetti);
+                setTimeout(() => confetti.remove(), 4000);
+            }
+            
+            yesBtn.textContent = '🎉 LONG LIVE THE QUEEN! 👑';
+            yesBtn.style.transform = 'scale(1.15)';
+            noBtn.style.display = 'none';
+        });
+
+        noBtn.addEventListener('mouseover', () => {
+            const maxX = window.innerWidth - noBtn.offsetWidth - 20;
+            const maxY = window.innerHeight - noBtn.offsetHeight - 20;
+            const randomX = Math.random() * maxX;
+            const randomY = Math.random() * maxY;
+            
+            noBtn.style.position = 'fixed';
+            noBtn.style.left = randomX + 'px';
+            noBtn.style.top = randomY + 'px';
+            noBtn.style.transition = 'all 0.3s ease';
+        });
+
+        noBtn.addEventListener('click', () => {
+            noBtn.style.animation = 'shake 0.5s';
+            setTimeout(() => {
+                noBtn.style.animation = '';
+            }, 500);
+        });
+
+        // Add shake animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes shake {
+                0%, 100% { transform: translateX(0) rotate(0deg); }
+                25% { transform: translateX(-15px) rotate(-8deg); }
+                75% { transform: translateX(15px) rotate(8deg); }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>
